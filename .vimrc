@@ -99,21 +99,20 @@ set viminfo='500                " Sets 500 lines of history VIM har to remember
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax on
-"  colors odin 
-"colorscheme evening
+  colors odin
 
   "internationalization
   "I only work in Win2k Chinese version
-  "if has("multi_byte")
-  "    let &termencoding = &encoding
-  "    set encoding=utf-8
-  "    " Set fileencoding priority
-  "    if getfsize(expand("%")) > 0
-  "        set fileencodings=utf-8,ucs-bom,cp936,big5,euc-jp,euc-kr,latin1
-  "    else
-  "        set fileencodings=cp936,big5,euc-jp,euc-kr,latin1
-  "    endif
-  "endif
+  if has("multi_byte")
+      let &termencoding = &encoding
+      set encoding=utf-8
+      " Set fileencoding priority
+      if getfsize(expand("%")) > 0
+          set fileencodings=utf-8,ucs-bom,cp936,big5,euc-jp,euc-kr,latin1
+      else
+          set fileencodings=cp936,big5,euc-jp,euc-kr,latin1
+      endif
+  endif
 
   "if you use vim in tty,
   "'uxterm -cjk' or putty with option 'Treat CJK ambiguous characters as wide' on
@@ -259,6 +258,7 @@ vnoremap $w <esc>`>a"<esc>`<i"<esc>
 iab odate <c-r>=strftime("%Y%m%d%H%M")<cr>
 iab owdate <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings etc.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -330,18 +330,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files and backup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set backupdir=~/.vimbak         " Set backup dir
-"set directory=~/.vimbak         " Set work dir
-if has("win32")
-  set backupdir=~/vimbak         " Set backup dir
-  "set directory=~/vimbak         " Set work dir
-  set directory=.,$TEMP
-  set visualbell t_vb=  "关闭visual bell
-  au GuiEnter * set t_vb= "关闭beep
-else
-  set backupdir=~/.vimbak         " Set backup dir
-  set directory=~/.vimbak         " Set work dir
-endif
+set backupdir=~/.vimbak         " Set backup dir
+set directory=~/.vimbak         " Set work dir
 if has("vms")
   set nobackup                  " do not keep a backup file, use versions instead
 else
@@ -352,11 +342,12 @@ endif
 " => Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Enable folding, I find it very useful
-set foldenable
-set foldlevel=0
-set foldmethod=marker
+"set foldenable
+"set foldlevel=0
+"set foldmethod=syntax
 
 function! Fold()
+ setl foldmethod=marker
  setl foldlevelstart=1
  syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
  syn match foldImports /\(\n\?import.\+;\n\)\+/ transparent fold
@@ -427,19 +418,15 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " Minibuffer
   """"""""""""""""""""""""""""""
-  "let g:miniBufExplModSelTarget = 1
-  "let g:miniBufExplorerMoreThanOne = 2
+  let g:miniBufExplModSelTarget = 1
+  let g:miniBufExplorerMoreThanOne = 2
+  let g:miniBufExplModSelTarget = 0
   let g:miniBufExplUseSingleClick = 1
-  "let g:miniBufExplMapWindowNavVim = 1
-  "let g:miniBufExplVSplit = 25
-  let g:miniBufExplSplitBelow=0
-  "let g:bufExplorerSortBy = "name"
-  "let g:miniBufExplMapWindowNavArrows = 1  "added by evoup 
-  "let g:miniBufExplMapCTabSwitchBufs =1 "added by evoup 
-
+  let g:miniBufExplMapWindowNavVim = 1
+  let g:miniBufExplVSplit = 25
+  let g:miniBufExplSplitBelow=1
+  let g:bufExplorerSortBy = "name"
   autocmd BufRead,BufNew :call UMiniBufExplorer
-  map <S-D> <C-W>W<TAB><CR>
-  map <S-C> :bNext<CR>
 
   """"""""""""""""""""""""""""""
   " Tag list (ctags) - not used
@@ -498,15 +485,7 @@ map <leader>s? z=
   autocmd FileType php compiler php
   autocmd FileType php map <buffer> <leader><space> <leader>cd:w<cr>:make %<cr>
   au FileType php call Fold()
-  "au FileType php setl fen
-
-
-
-
-
-  """"""""""""""""""""""""""""""
-  """"""""""""""""""""""""""""""
-
+  au FileType php setl fen
 
 
   """"""""""""""""""""""""""""""
@@ -573,7 +552,7 @@ map <leader>s? z=
   autocmd FileType java inoremap <buffer> $s String
 
   au FileType java call Fold()
-  "au FileType java setl fen
+  au FileType java setl fen
 
   au BufEnter *.sablecc,*.scc set ft=sablecc
 
@@ -581,7 +560,7 @@ map <leader>s? z=
   " JavaScript section
   """""""""""""""""""""""""""""""
   au FileType javascript call Fold()
-  "au FileType javascript setl fen
+  au FileType javascript setl fen
 
   au FileType javascript imap <c-t> console.log();<esc>hi
   au FileType javascript imap <c-a> alert();<esc>hi
@@ -641,7 +620,6 @@ function TimeStamp()
   %s/\$Date: .*\$/\=strftime("$Date: %Y-%m-%d %H:%M:%S$")/ge
   %s/Last Change: .*$/\=strftime("Last Change: %Y-%m-%d %H:%M:%S")/ge
   %s/Last Modified: .*$/\=strftime("Last Modified: %Y-%m-%d %H:%M:%S")/ge
-  %s/Last-Modified: .*$/\=strftime("Last-Modified: %Y-%m-%d %H:%M:%S")/ge
   call RestoreWinPosn(curposn)
 endfunction
 
@@ -677,311 +655,4 @@ endfunction
 map <F4>    <ESC>:call BreakPoint()<CR>
 
 "personal mapping
-map MM <F3>O/* {{{ <CR> */<CR>/* }}} */<ESC>kk$a
-
-
-
-"added by evoup
-
-"You can obtain the completion dictionary file from:
-""  http://cvs.php.net/viewvc.cgi/phpdoc/funclist.txt
-set dictionary-=$VIM/funclist.txt dictionary+=$VIM/funclist.txt
-
-"Use the dictionary completion
-set complete-=k complete+=k
-"
-"
-"end added by evoup
-set nocompatible    " Use Vim defaults (much better!)
-set bs=2        " allow backspacing over everything in insert mode
-
-set history=50        " keep 50 lines of command line history
-set ruler        " show the cursor position all the time
-
-if &term=="xterm"
-set t_Co=8
-set t_Sb=m
-set t_Sf=m
-endif
-
-set tabstop=4
-set shiftwidth=4
-
-syntax on
-set cindent
-set incsearch
-set foldmethod=marker
-set foldopen&
-set et
-
-map <C-b> <Esc>\be
-
-"color
-"colorscheme evening
-
-"You can obtain the completion dictionary file from:"
-"http://cvs.php.net/viewvc.cgi/phpdoc/funclist.txt
-set dictionary-=/etc/vim/funclist.txt dictionary+=/etc/vim/funclist.txt
-"Use the
-"dictionary completion
-set complete-=k complete+=k
-
-"Auto completion using the TAB key
-"This function determines, wether we are on
-"the start of the line text(then tab indents)
-"or if we want to try auto completion
-function! InsertTabWrapper()
-let col=col('.')-1
-if !col || getline('.')[col-1] !~ '\k'
-return "\<TAB>"
-else
-return "\<C-N>"
-endif
-endfunction
-"Remap the tab key to select action with InsertTabWrapper
-inoremap <TAB> <C-R>=InsertTabWrapper()<CR>
-filetype on
-"filetype plugin indent on
-
-
-
-"You can obtain the completion dictionary file from:
-""  http://cvs.php.net/viewvc.cgi/phpdoc/funclist.txt
-set dictionary-=$VIM/funclist.txt dictionary+=$VIM/funclist.txt
-
-"Use the dictionary completion
-set complete-=k complete+=k
-
-
-
-"taglist
-let Tlist_Ctags_Cmd = "/usr/local/bin/exctags"
-let Tlist_Auto_Open=0
-let Tlist_Use_SingleClick=1
-let Tlist_Exit_OnlyWindow=1
-let Tlist_GainFocus_On_ToggleOpen=1
-let Tlist_Auto_Highlight_Tag=1
-let Tlist_WinWidth=20
-"map <silent> <leader>tl :TlistToogle<cr>
-"source ~/vim_setting/plugin/taglist.vim
-set nu
-
-
-"vim颜色fix
-if !has("gui_running")
-    set t_Co=8
-    set t_Sf=^[[3%p1%dm
-    set t_Sb=^[[4%p1%dm
-endif
-
-
-set t_Co=256
-"let t_Co=256
-"set term=xterm-256color
-"let term=xterm-256color
-"colorscheme leo
-"source ~/vim_setting/plugin/color_sample_pack.vim
-
-set cul 
-colorscheme zenburn
-"colorscheme leo
-"colorscheme zenburn
-"colo leo
-"colo molokai
-"colo zenburn
-set cursorline
-hi cursorline guibg=#333333
-hi CursorColumn guibg=#333333
-hi ColorColumn ctermbg=120 guibg=#333333
-"set colorcolumn=111
-if exists('+colorcolumn')
-    set colorcolumn=120
-  else
-    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>120v.\+', -1)
-endif
-" shift tab pages
-map <S-A> :tabp<CR>
-map <S-Z> :tabn<CR>
-map <S-H> :!/usr/local/bin/php -l %<CR>
-"注释的颜色
-"hi Comment ctermfg=darkgreen
-"hi String ctermfg=darkred
-"hi Type ctermfg=yellow
-"hi Number ctermfg=darkblue
-"hi Constant ctermfg=blue
-"hi Statement ctermfg=darkyellow
-"source ~/.vim/plugin/echofunc.vim
-
-"neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-hi CursorLine ctermbg=238 guibg=#262626 cterm=none
-
-
-"Doxygen
-map fg : Dox<cr>
-let g:DoxygenToolkit_authorName="evoup evoex@126.com"
-"let g:DoxygenToolkit_licenseTag="My own license\<enter>"
-let s:licenseTag = "Copyright(C)\<enter>"
-let s:licenseTag = s:licenseTag . "For free\<enter>"
-let s:licenseTag = s:licenseTag . "All right reserved\<enter>"
-let g:DoxygenToolkit_undocTag="DOXIGEN_SKIP_BLOCK"
-let g:DoxygenToolkit_briefTag_pre = "@brief "
-let g:DoxygenToolkit_paramTag_pre = "@param "
-let g:DoxygenToolkit_returnTag = "@return "
-let g:DoxygenToolkit_briefTag_funcName = "yes"
-let g:DoxygenToolkit_maxFunctionProtoLines = 30
-let g:doxygen_enhanced_color=1
-au BufRead,BufNewFile nginx.conf,madapi.conf,madserv.conf,rmserv.conf,smeserv.conf set ft=config
-autocmd BufNewFile,Bufread *.ros,*.inc,*.php,*.m set keywordprg="help"
-
-"echofunc插件在cli终端下需要的设置
-"let g:EchoFuncKeyNext='<Esc>+'
-"let g:EchoFuncKeyPrev='<Esc>-'
-"
-"show current function
-fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
-  echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
-  echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
-endfun
-map f :call ShowFuncName() <CR>
-set fdm=syntax
-au BufRead,BufNewFile /var/log/messages map <S-X> :e<CR>
-
-function! CompleteDetachedBracket()
-  let line = line('.')
-  let col = col('.')
-  let c = getline(".")[col(".")]
-  execute "normal \<RIGHT>%"
-  if c == "$"
-    execute "normal 2wi)"
-  elseif line != line('.') || col != col('.')
-    execute "normal a)"
-  else
-    execute "normal a)"
-    startinsert
-  endif
-endfunction
-
-" 括号自动完成 
-inoremap ( ()<ESC>i
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap { {}<ESC>i
-inoremap } <c-r>=ClosePair('}')<CR>
-inoremap [ []<ESC>i
-inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap < <><ESC>i
-inoremap > <c-r>=ClosePair('>')<CR>
-function ClosePair(char)
-    if getline('.')[col('.') - 1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
-endf
-
-"以下要整合到配色文件中
-"show status line color in insert mode
-" http://vim.wikia.com/wiki/Change_statusline_color_to_show_insert_or_normal_mode
-" first, enable status line always
-"set laststatus=2
-" now set it up to change the status line based on mode
-"if version >= 700
-"  au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
-"  au InsertLeave * hi StatusLine term=reverse ctermfg=7 ctermbg=2 gui=bold
-"endif
-"
-"
-"
-""""""""""""""""""""""""""""""
-" 笔记 configuration
-""""""""""""""""""""""""""""""
-"au BufRead,BufNewFile /usr/Selfservice/手册/笔记/newest.txt set ft=note
-"重载文件
-"au BufRead,BufNewFile /services/serving_log/monitor_debug.log map <S-X> :e<CR>
-
-
-"折叠
-"set foldmethod=manual 
-set foldmethod=marker 
-
-""""""""""""""""""""""""""""""
-" 监控 configuration
-""""""""""""""""""""""""""""""
-"au BufRead,BufNewFile /services/serving_log/monitor_debug.log set ft=monitor_server
-
-
-""""""""""""""""""""""""""""""
-"  vim 状态栏显示最后编辑时间
-""""""""""""""""""""""""""""""
-"autocmd BufWrite * call SetStatusLine()
-"autocmd BufRead * call SetStatusLine()
-"function! SetStatusLine()
-  "set statusline=[%n]\ %f\ %(\ \ (%M%R%H)%)\ \ \ %=\t%{ShowTab()}\ \ \ Modified:\ %{Time()}\ \ [%3l:%3L,%2c]\ %p%%\
-  "set statusline=[%n]\ %f\ %(\ \ (%M%R%H)%)\ \ \ %=\t%{ShowTab()}\ \ \ Modified:\ %{Time()}\ \ [%3l:%3L,%2c]\ %p%%
-"endfunction
-
-"function! Time()
-  "return strftime("%c", getftime(bufname("%")))
-"endfunction
-
-"function! ShowTab()
-  "let TabLevel = (indent('.') / &ts )
-  "if TabLevel == 0
-    "let TabLevel='*'
-  "endif
-  "return TabLevel
-"endfunction
-:map td :tabnew .<cr>
-
-
-
-syntax on
-"一定要放到syntax on之后
-hi ColorColumn ctermbg=70 guibg=#333333
-
-"for git diff
-"autocmd InsertLeave * if &diff == 1 | diffupdate | endif
-"set diffopt+=context:8
-"
-"编译当前erlang文件且部署到rebar项目的rel目录的对应位置
-"map bd :call CompileErlDeploy()<CR>
-"func! CompileErlDeploy()
-"  exec "w"
-"  exec "!erlc -o /tmp % && set bar = \"`ls apps/`\" && mv /tmp/`basename %<.beam` rel/`ls apps/`/lib/`ls apps/`-`grep vsn apps/{$bar}/src/{$bar}.app.src | sed 's/{vsn, \"//g' | sed 's/\"},//g'`/ebin/ && `pwd`/rel/`ls apps/`/bin/`ls apps/` stop"
-"endfunc
-
-"map bf :call RunErl()<CR>
-"func! RunErl()
-"  exec "!`pwd`/rel/`ls apps/`/bin/`ls apps/` start"
-"endfunct
-
-"NERDTREE
-let NERDTreeWinPos = "right"
-let NERDTreeWinSize = 31
-nmap <F9> <ESC>:NERDTreeToggle<RETURN>
-
-"全天候解决乱码，无需vim file才不乱码，直接开vim就不乱码
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-set termencoding=utf-8
-set encoding=utf-8
-
-"win32的乱码配置
-if has("win32")
-  set fileencoding=chinese
-
-  "解决菜单乱码
-  source $VIMRUNTIME/delmenu.vim
-  source $VIMRUNTIME/menu.vim
-
-  "解决consle输出乱码
-  language messages zh_CN.utf-8
-  source ~\.vim\colors\zenburn.vim
-  set guifont=Lucida_Console:h12:cANSI
-else
-  set fileencoding=utf-8
-endif
-
+map MM O/**<CR><ESC>a**/<ESC>O
