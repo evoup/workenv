@@ -139,8 +139,8 @@ set path = (/sbin /bin /usr/sbin /usr/bin /usr/games /usr/local/sbin /usr/local/
 alias mdnsrc "cd /services/serv/data/hiphop/mdndeliverapi"
 alias autoconf "/usr/home/yin/local/bin/autoconf/bin/autoconf"
 
-setenv PHP_AUTOCONF "/usr/home/yin/local/bin/autoconf/bin/autoconf"
-setenv PHP_AUTOHEADER "/usr/home/yin/local/bin/autoconf/bin/autoheader"
+setenv PHP_AUTOCONF "/usr/bin/autoconf"
+setenv PHP_AUTOHEADER "/usr/bin/autoheader"
 alias rrdtool /usr/lib64/rrdtool/bin/rrdtool
 #alias go "/usr/local/go/bin/go"
 setenv GOROOT "/usr/local/go"
