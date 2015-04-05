@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/usr/home/yin/project/management/new/newGetHiveData/src/main/java/com/madhouse'
+let g:netrw_dirhist_2='/usr/home/yin/project/management/new/newGetHiveData/src/main/java/com/madhouse/newGetHiveData'
+let g:netrw_dirhist_3='/usr/home/yin/project/management/new/newGetHiveData/src'
+let g:netrw_dirhist_4='/usr/home/yin/project/management/new/newGetHiveHttpLog/src'
+let g:netrw_dirhist_5='/usr/ports/databases/mysql55-server/work'
+let g:netrw_dirhist_6='/usr/home/yin/.ssh'
+let g:netrw_dirhist_7='/usr/local/share/project/fmp/facebookprj_git/fmp/FMP_ui/campaign/new'
+let g:netrw_dirhist_8='/tmp'
