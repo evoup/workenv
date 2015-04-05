@@ -1,1 +1,0 @@
-cecutil.vba: call delete('/usr/home/yinjia/.vim/plugin/cecutil.vim')|call delete('/usr/home/yinjia/.vim/doc/cecutil.txt')
