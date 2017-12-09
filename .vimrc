@@ -987,3 +987,5 @@ endif
 
 "vjde
 "let g:vjde_tab_cfu=1 
+syntax on
+hi Normal ctermbg=none
