@@ -2,12 +2,21 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/evoup/.oh-my-zsh
+export ZSH=/home/evoup/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="ys"
+#ZSH_THEME="random"
+
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,7 +60,9 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,29 +94,18 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+#
 # added by Anaconda2 4.3.1 installer
 #export PATH="/home/evoup/anaconda2/bin:$PATH"
-#
-#linux brew required
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export PATH="/home/evoup/Android/Sdk/platform-tools:$PATH"
+#export PATH="$HOME/.linuxbrew/bin:$PATH"
+#export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+#export PATH="$HOME/.linuxbrew/bin:$PATH"
+#export PATH="/home/evoup/Android/Sdk/platform-tools:$PATH"
 
-alias emulator="/home/evoup/Android/Sdk/emulator/emulator"
-
-snap_screen() {
-if [ $# -eq 0 ]
-then
-   name="screenshot.png"
-else
-   name="$1.png"
-fi
-
-adb shell screencap /sdcard/$name
-adb pull /sdcard/$name
-adb shell rm /sdcard/$name
-curr_dir=pwd
-echo "Saved to `pwd`/$name"
-}
-PATH=$PATH:/usr/local/go/bin
+alias ll="ls -la"
+export GOPATH="/home/evoup/go"
+export GOBIN="/usr/local/go/bin"
+export PATH=$GOBIN:$PATH
+alias dockerfiles="cd /home/evoup/projects/gitProjects/dockerfiles"
+alias dockerps="docker ps --format '容器{{.Names}}\t镜像{{.Image}}\t状态{{.Status}}' -a"
